@@ -1,235 +1,176 @@
-# 💖 LoveRoom - Your Special Chat Paradise 💖
+# LoveRoom - Private Messaging Platform
 
 <div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-pink.svg)](LICENSE)
-[![React](https://img.shields.io/badge/React-18.x-red)](https://reactjs.org/)
-[![Material-UI](https://img.shields.io/badge/MUI-v5-ff69b4)](https://mui.com/)
-![Version](https://img.shields.io/badge/version-1.0.0-ff1493)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18.x-blue)](https://reactjs.org/)
+[![Material-UI](https://img.shields.io/badge/MUI-v5-blue)](https://mui.com/)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
 
-### 💕 A Magical Space Just for Two Special People 💕
-
+A secure, feature-rich private messaging platform for couples
 </div>
 
-## 🌟 About Our Love Nest 🌟
+## Overview
 
-LoveRoom is your cozy digital paradise where love blooms! 🌸 Share special moments, create beautiful memories, and keep your love story alive in this secure space made just for two! 💑
+LoveRoom is a private social platform designed for couples to share moments and communicate securely. The application provides end-to-end encrypted messaging, media sharing capabilities, and customizable spaces for two users.
 
-## ✨ Features that Make Hearts Flutter ✨
+## Core Features
 
-### 💌 Sweet Communication
-- 💬 Adorable real-time chat interface
-- 📸 Share lovely photos and cute videos
-- 💝 Express feelings with special reactions
-- 🎨 Cute sticker collection
+### Communication
+- Real-time messaging with modern UI
+- Media sharing (photos and videos)
+- Custom reactions and comments
+- Specialized sticker packs
 
-### 🔒 Just For You Two
-- 🔐 Super secure private space
-- 🎯 End-to-end encrypted messages
-- 📱 Protected media sharing
-- 🌹 Your private love garden
+### Security
+- End-to-end encryption
+- Private two-person spaces
+- Secure media storage
+- Protected messaging
 
-### 💞 Precious Moments
-- 📸 Shared photo collections
-- 📅 Special dates reminder
-- 🎵 Romantic playlist sharing
-- 💌 Digital love letters
+### Content Management
+- Shared photo albums
+- Event tracking and reminders
+- Music playlist sharing
+- Digital message archives
 
-### 🎨 Make It Yours
-- 🌙 Light/Dark love themes
-- 👩‍❤️‍👨 Couple profile options
-- 🎪 Fun UI customization
-- 🎭 Create your own stickers
+### Customization
+- Theme support (Light/Dark modes)
+- Profile customization
+- UI personalization
+- Custom sticker creation
 
-## 📚 Complete Installation Guide
+## Technical Requirements
 
-### 1. Prerequisites
-Before starting your love journey, ensure you have:
-- Node.js (>= 14.0.0)
-- npm (>= 6.14.0)
-- AWS Account
-- Git installed
-
-### 2. Setting Up AWS 💝
-
-#### Creating AWS Account
-1. Navigate to [AWS Console](https://aws.amazon.com/)
-2. Click "Create an AWS Account"
-3. Follow the registration process
-
-#### Creating S3 Storage
-1. Log into AWS Console
-2. Search for "S3" service
-3. Click "Create bucket"
-4. Choose bucket name (e.g., "loveroom-files")
-5. Select your preferred region
-6. In access settings:
-   - Uncheck "Block all public access"
-   - Confirm settings awareness
-7. Complete bucket creation
-
-#### Setting Up CORS
-Add this to your bucket CORS configuration:
-```json
-[
-    {
-        "AllowedHeaders": ["*"],
-        "AllowedMethods": ["GET", "PUT", "POST", "DELETE", "HEAD"],
-        "AllowedOrigins": ["*"],
-        "ExposeHeaders": ["ETag"],
-        "MaxAgeSeconds": 3000
-    }
-]
+### Prerequisites
+```bash
+node >= 14.0.0
+npm >= 6.14.0
 ```
 
-#### Creating Access Keys
-1. Navigate to IAM in AWS Console
-2. Go to "Users" → "Add user"
-3. Set username: "loveroom-app"
-4. Select "Access key - Programmatic access"
-5. Attach "AmazonS3FullAccess" policy
-6. Save your Access Key ID and Secret Access Key safely
-
-### 3. Project Setup with Love 💕
-
-#### Basic Installation
+### Installation
 ```bash
-# Clone your love nest
-git clone https://github.com/scrollDynasty/LoveRoom.git
+# Clone repository
+git clone https://github.com/scrollDynasty/love-room.git
 
-# Enter the paradise
-cd LoveRoom
+# Navigate to project directory
+cd love-room
 
-# Install love packages
+# Install dependencies
+npm install
+
+# Configure environment
+cp .env.example .env
+
+# Start development server
+npm start
+```
+
+## Technology Stack
+
+- Frontend: React 18.x
+- Styling: SCSS
+- UI Framework: Material-UI v5
+- State Management: Redux Toolkit
+- Real-time Communication: Socket.IO
+- Storage: Secure file storage system
+
+## Key Components
+
+### Messaging System
+- Modern interface design
+- Emoji and sticker integration
+- Media sharing capabilities
+- Message status indicators
+
+### Media Management
+- High-resolution image support
+- Video playback functionality
+- Preview capabilities
+- Upload progress tracking
+
+### UI/UX Features
+- Light/Dark theme options
+- Customizable color schemes
+- Responsive design implementation
+- Transition animations
+
+## Development Roadmap
+
+Completed:
+- [x] Real-time messaging
+- [x] Media sharing capabilities
+- [x] Custom reactions
+- [x] Theme customization
+
+Planned:
+- [ ] Voice messaging
+- [ ] Video calling
+- [ ] Shared calendar system
+- [ ] Timeline feature
+
+## Contributing
+
+We welcome contributions. Please follow our [Contributing Guidelines](CONTRIBUTING.md) for details on our development process.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/NewFeature`)
+3. Commit changes (`git commit -m 'Add NewFeature'`)
+4. Push to branch (`git push origin feature/NewFeature`)
+5. Submit a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Development Team
+
+- Lead Developer: [scrollDynasty](https://github.com/scrollDynasty)
+
+## Contact Information
+
+For support or inquiries:
+- Issues: [GitHub Issues](https://github.com/scrollDynasty/love-room/issues)
+- Email: scrolldynasty@gmail.com
+
+## Quick Start Guide
+
+1. Clone the repository:
+```bash
+git clone https://github.com/scrollDynasty/love-room.git
+```
+
+2. Install dependencies:
+```bash
+cd love-room
 npm install
 ```
 
-#### Environment Configuration
-Create `.env` file in your project root:
-```env
-REACT_APP_AWS_ACCESS_KEY_ID=your_access_key_id
-REACT_APP_AWS_SECRET_ACCESS_KEY=your_secret_access_key
-REACT_APP_AWS_REGION=your_chosen_region
-REACT_APP_AWS_BUCKET_NAME=your_bucket_name
-```
-
-#### Storage Security
-Add to your S3 bucket permissions:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "PublicReadGetObject",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::YOUR-BUCKET-NAME/*"
-        }
-    ]
-}
-```
-
-### 4. Running Your Love Space 💖
-
-#### Development Mode
+3. Launch development server:
 ```bash
 npm start
 ```
-Visit `http://localhost:3000` to see the magic! ✨
 
-#### Production Launch
-```bash
-npm run build
-npm install -g serve
-serve -s build
-```
+Access the application at `http://localhost:3000`
 
-### 5. Security Guide 🔒
+## Technical Specifications
 
-✨ Essential Security Steps:
-- Never share your `.env` file
-- Use environment variables in production
-- Rotate access keys regularly
-- Configure CORS for your domain
-- Use minimal permissions
-- Regular security updates
-- Encrypted data storage
+### Security Features
+- Data encryption
+- Private messaging systems
+- Secure file storage
+- Regular security maintenance
 
-### 6. Troubleshooting Guide 🛠️
-
-#### Upload Issues
-- Verify AWS credentials
-- Check bucket permissions
-- Confirm CORS setup
-- Review file size limits
-
-#### Connection Problems
-- Check internet connection
-- Verify AWS region
-- Validate API endpoints
-
-#### Quick Fixes
-- Clear browser cache
-- Check browser console
-- Verify environment setup
-- Restart development server
-
-## 💕 Our Love Tech Stack
-
-- 🎨 Frontend: React with love (v18.x)
-- 🎭 Styling: SCSS with heart
-- 🎪 UI: Material-UI v5
-- 🔮 State: Redux Toolkit
-- ⚡ Real-time: Socket.IO
-- 🗃️ Storage: AWS S3
-
-## 🚀 Coming Soon
-
-✅ Real-time chat is here!
-✅ Photo sharing is ready!
-✅ Reactions are live!
-✅ Themes are done!
-
-🔜 Coming up:
-- 🎤 Voice messages
-- 📹 Video calls
-- 📅 Shared calendar
-- ⌛ Memory timeline
-
-## 💝 Help Us Grow
-
-Want to make LoveRoom even better? 🌟
-
-1. 🍴 Fork with love
-2. 🌱 Create your feature (`git checkout -b feature/Amazing`)
-3. 💝 Commit changes (`git commit -m 'Add something amazing'`)
-4. 🌟 Push with care (`git push origin feature/Amazing`)
-5. 💫 Open a lovely Pull Request
-
-## 💖 License
-
-Spread love under MIT License! See [LICENSE](LICENSE) 💕
-
-## 💕 Created By
-
-🌟 **scrollDynasty** - *Made with Love* - [GitHub](https://github.com/scrollDynasty)
-
-## 💌 Get in Touch
-
-Share some love:
-- 🐛 Issues: [GitHub Issues](https://github.com/scrollDynasty/love-room/issues)
-- 📧 Email: scrolldynasty@gmail.com
-- 📚 Wiki: [Project Wiki](https://github.com/scrollDynasty/love-room/wiki)
+### Performance Metrics
+- Optimized load times
+- Efficient image processing
+- Performance-focused animations
+- Cross-device compatibility
 
 ---
 
 <div align="center">
-
-💖 Made with Love by scrollDynasty 💖
+Developed by scrollDynasty
 <br/>
-✨ Last Updated: 2025-01-14 06:34:46 UTC ✨
-<br/>
-🌟 Spreading Love Since 2025 🌟
-
+Updated: 2025-01-13
 </div>
