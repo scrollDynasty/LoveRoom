@@ -1,183 +1,183 @@
-```markdown
-# 💖 LoveRoom - Your Private Paradise 💖
-
 <div align="center">
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-pink.svg)](LICENSE)
-[![React](https://img.shields.io/badge/React-18.x-red)](https://reactjs.org/)
-[![Material-UI](https://img.shields.io/badge/MUI-v5-ff69b4)](https://mui.com/)
-![Version](https://img.shields.io/badge/version-1.0.0-ff1493)
-[![Last Commit](https://img.shields.io/badge/Last%20Commit-January%202025-ff69b4)](https://github.com/scrollDynasty/love-room/commits/main)
+![LoveRoom Logo](https://via.placeholder.com/150x150)
 
-### 💕 Where Love Stories Bloom in Digital Space 💕
+# LoveRoom
+
+> A next-generation private messaging platform built for meaningful connections
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENSE)
+[![Made with React](https://img.shields.io/badge/React-18.x-black?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![UI: Material-UI](https://img.shields.io/badge/MUI-v5-black?style=for-the-badge&logo=mui)](https://mui.com/)
+[![Version](https://img.shields.io/badge/version-1.0.0-black?style=for-the-badge)](https://github.com/scrollDynasty/love-room)
 
 </div>
 
-## 💝 About LoveRoom
+## ✨ Highlights
 
-LoveRoom is more than just a social network - it's your private digital paradise created especially for couples in love. Share tender moments, create beautiful memories, and keep your love story alive in a secure and intimate space designed just for two. Let your love flourish in this personal sanctuary where every feature is crafted with romance in mind.
+- 🔒 **End-to-End Encryption** - Your conversations stay private
+- 🎨 **Modern UI/UX** - Clean, intuitive interface with dark mode support
+- 📱 **Cross-Platform** - Seamless experience across all devices
+- ⚡ **Real-Time** - Instant messaging and status updates
+- 🖼️ **Rich Media** - Share images, videos, and more
 
-## 🌹 Features that Make Love Stronger
+## 🚀 Quick Start
 
-### 💌 Intimate Communication
-- Real-time love messages with beautiful modern UI
-- Share romantic photos and heartwarming videos
-- Express feelings with love reactions and sweet comments
-- Special collection of romantic stickers and love emojis
+```bash
+# Get the latest source
+git clone https://github.com/scrollDynasty/love-room.git
 
-### 🔒 Privacy & Security for Two
-- Secure private space for couples
-- End-to-end encrypted love messages
-- Protected media sharing
-- Your love story stays private
+# Change into the project
+cd love-room
 
-### 💞 Special Moments
-- Create shared photo albums
-- Mark special dates and anniversaries
-- Share romantic music playlists
-- Create digital love letters
+# Install dependencies
+npm install
 
-### 🎨 Romance Customization
-- Choose romantic themes (Light/Dark modes)
-- Customize your couple profile
-- Set mood lighting for chat
-- Create personal love stickers
+# Launch development environment
+npm start
+```
 
-## 💫 Getting Started
+## 🛠️ Tech Stack
 
-### Prerequisites of Love
+<div align="center">
+
+[![Tech Stack](https://skillicons.dev/icons?i=react,redux,ts,scss,materialui,nodejs)](https://skillicons.dev)
+
+</div>
+
+| Technology | Purpose |
+|------------|---------|
+| React 18   | Frontend Framework |
+| Redux Toolkit | State Management |
+| Material-UI | UI Components |
+| Socket.IO | Real-time Communication |
+| SCSS | Styling |
+| TypeScript | Type Safety |
+
+## 🌟 Features
+
+### Core Experience
+
+- **Real-Time Chat**
+  - Instant message delivery
+  - Typing indicators
+  - Read receipts
+  - Rich text formatting
+
+- **Media Sharing**
+  - High-resolution images
+  - Video sharing
+  - Voice messages
+  - File attachments
+
+- **Privacy First**
+  - End-to-end encryption
+  - Two-factor authentication
+  - Private spaces
+  - Secure file storage
+
+### Customization
+
+- **Themes**
+  - Dark/Light modes
+  - Custom color schemes
+  - Personalized layouts
+
+- **Profile**
+  - Custom avatars
+  - Status messages
+  - Shared profiles
+
+## 📱 Interface
+
+<div align="center">
+
+| Light Mode | Dark Mode |
+|------------|-----------|
+| ![Light](https://via.placeholder.com/400x300) | ![Dark](https://via.placeholder.com/400x300) |
+
+</div>
+
+## 🎯 Roadmap
+
+```mermaid
+gantt
+    title Feature Timeline
+    dateFormat  YYYY-MM-DD
+    section Current
+    Real-time Chat    :done,    des1, 2025-01-01, 2025-01-15
+    Media Sharing     :done,    des2, 2025-01-01, 2025-01-30
+    section Upcoming
+    Voice Messages    :active,  des3, 2025-02-01, 2025-02-28
+    Video Calls      :         des4, 2025-03-01, 2025-03-31
+    Timeline Feature :         des5, 2025-04-01, 2025-04-30
+```
+
+## ⚙️ Installation
+
+### Prerequisites
+
 ```bash
 node >= 14.0.0
 npm >= 6.14.0
 ```
 
-### Installation with Love
-```bash
-# Clone your love nest
-git clone https://github.com/scrollDynasty/LoveRoom
-
-# Enter your paradise
-cd LoveRoom
-
-# Install love packages
-npm install
-
-# Create your love environment
-cp .env.example .env
-
-# Start your love journey
-npm start
-```
-
-## 💕 Tech Stack of Love
-
-- **Frontend**: React with loads of love (v18.x)
-- **Styling**: SCSS with romantic touches
-- **UI Library**: Material-UI v5 with heart
-- **State**: Redux Toolkit for managing love states
-- **Real-time**: Socket.IO connecting hearts
-- **Storage**: Files stored with love and security
-
-## 📱 Main Features
-
-### Real-Time Chat
-- Modern and intuitive interface
-- Emoji and sticker support
-- Image and video sharing
-- Read receipts and typing indicators
-
-### Media Sharing
-- High-quality image support
-- Video playback
-- Media preview
-- Progress indicators for uploads
-
-### Theme Support
-- Light/Dark mode
-- Custom color schemes
-- Responsive design
-- Animated transitions
-
-## 💫 Future Love Features
-
-- [x] Real-time love chat
-- [x] Romantic media sharing
-- [x] Love reactions
-- [x] Dark/Light themes
-- [ ] Voice messages
-- [ ] Video calls
-- [ ] Shared calendar
-- [ ] Memory timeline
-
-## 💝 Contributing with Love
-
-We welcome contributions made with love! See our [Contributing Guidelines](CONTRIBUTING.md) for ways to offer your heart to this project.
-
-1. Fork with love
-2. Create your lovely feature branch (`git checkout -b feature/LovelyFeature`)
-3. Commit with passion (`git commit -m 'Add some LovelyFeature'`)
-4. Push to the branch with care (`git push origin feature/LovelyFeature`)
-5. Open a love-filled Pull Request
-
-## 💖 License
-
-This project is licensed with love under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 💕 Author
-
-- **scrollDynasty** - *Created with Love* - [GitHub Profile](https://github.com/scrollDynasty)
-
-## 💌 Contact with Love
-
-Spread the love:
-- GitHub Issues: [Share your love](https://github.com/scrollDynasty/love-room/issues)
-- Email: scrolldynasty@gmail.com
-
-## 🚀 Quick Setup
+### Development Setup
 
 1. **Clone Repository**
-```bash
-git clone https://github.com/scrollDynasty/love-room.git
-```
+   ```bash
+   git clone https://github.com/scrollDynasty/love-room.git
+   ```
 
 2. **Install Dependencies**
+   ```bash
+   cd love-room
+   npm install
+   ```
+
+3. **Configure Environment**
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Start Development Server**
+   ```bash
+   npm start
+   ```
+
+Visit `http://localhost:3000` to view the application.
+
+## 🤝 Contributing
+
+We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for details.
+
 ```bash
-cd love-room
-npm install
+# Create a branch
+git checkout -b feature/amazing-feature
+
+# Commit changes
+git commit -m 'Add amazing feature'
+
+# Push branch
+git push origin feature/amazing-feature
 ```
 
-3. **Start Development Server**
-```bash
-npm start
-```
+## 📄 License
 
-Visit `http://localhost:3000` to see your love nest in action! 💕
+Released under the MIT License. See [LICENSE](LICENSE) for details.
 
-## 💗 Support
+## 📞 Support
 
-If you find this project helpful, please give it a ⭐️ to show your love!
-
-## 🔐 Security
-
-- All data is encrypted
-- Private messaging
-- Secure file storage
-- Regular security updates
-
-## 💫 Performance
-
-- Fast loading times
-- Optimized image delivery
-- Smooth animations
-- Responsive on all devices
+- 📧 Email: scrolldynasty@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/scrollDynasty/love-room/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/scrollDynasty/love-room/discussions)
 
 ---
 
 <div align="center">
-Made with 💖 by scrollDynasty
-<br/>
-Last Updated: 2025-01-13 21:11:14 UTC
-<br/>
-Spreading love since 2025
+
+### Made with ❤️ by scrollDynasty
+
+[Website](https://scrolldynasty.com) • [GitHub](https://github.com/scrollDynasty) • [Twitter](https://twitter.com/scrolldynasty)
+
 </div>
-```
