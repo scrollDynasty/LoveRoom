@@ -1,0 +1,123 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    animation: gradientBG 15s ease infinite;
+    background-size: 400% 400%;
+  }
+  
+  @keyframes gradientBG {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .auth-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  
+    h4 {
+      color: white;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  
+    .MuiTextField-root {
+      margin-bottom: 20px;
+      width: 100%;
+  
+      .MuiOutlinedInput-root {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+  
+        fieldset {
+          border-color: rgba(255, 255, 255, 0.3);
+        }
+  
+        &:hover fieldset {
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+      }
+  
+      .MuiInputLabel-root {
+        color: rgba(255, 255, 255, 0.7);
+      }
+  
+      input {
+        color: white;
+      }
+    }
+  
+    .login-button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+  
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+      }
+    }
+  }
+  
+  .auth-error {
+    color: #FF6B6B;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .success-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    
+    .MuiAlert-root {
+      min-width: 300px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      
+      &.success-alert {
+        background-color: #4CAF50;
+        color: white;
+      }
+      
+      &.error-alert {
+        background-color: #f44336;
+        color: white;
+      }
+    }
+  }

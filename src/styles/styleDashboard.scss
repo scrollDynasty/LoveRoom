@@ -1,0 +1,113 @@
+.dashboard-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6f9fc 0%, #f1f4f8 100%);
+    padding: 2rem;
+}
+
+.dashboard-header {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.records-grid {
+    margin-top: 2rem !important;
+    padding: 1rem !important;
+
+    .MuiGrid-item {
+        padding: 16px !important;
+    }
+}
+
+.record-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .record-content {
+        h6 {
+            color: #2c3e50;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .MuiTypography-caption {
+            color: #7f8c8d;
+            display: block;
+        }
+    }
+}
+
+.logout-button {
+    background: linear-gradient(45deg, #FF6B6B, #FF8E53) !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4) !important;
+    }
+}
+
+.add-button {
+    background: linear-gradient(45deg, #4CAF50, #45a049) !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4) !important;
+    }
+}
+
+.new-record-dialog {
+    .MuiDialog-paper {
+        border-radius: 15px;
+        padding: 1rem;
+    }
+
+    .MuiDialogTitle-root {
+        padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .MuiDialogContent-root {
+        padding: 1rem 1.5rem;
+    }
+
+    .MuiDialogActions-root {
+        padding: 1rem 1.5rem;
+    }
+
+    .MuiTextField-root {
+        margin-top: 1rem;
+    }
+
+    .MuiButton-root {
+        border-radius: 8px;
+        padding: 8px 16px;
+
+        &:last-child {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+
+            &:hover {
+                box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+            }
+
+            &.Mui-disabled {
+                background: #cccccc;
+            }
+        }
+    }
+}
