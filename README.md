@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 💖 LoveRoom - Your Special Chat Paradise 💖
 =======
 ```markdown
+=======
+>>>>>>> 8278a6d (update README)
 # 💖 LoveRoom - Your Private Paradise 💖
 >>>>>>> 2deb8bc (update README)
 
