@@ -29,6 +29,11 @@ LoveRoom is your cozy digital paradise where love blooms! 🌸 Share special mom
 - 📱 Protected media sharing
 - 🌹 Your private love garden
 
+## 🗝️ Login and Password
+
+1. **user1** - `password1`
+2. **user2** - `password2`
+
 ### 💞 Precious Moments
 - 📸 Shared photo collections
 - 📅 Special dates reminder
@@ -234,7 +239,3 @@ Share some love:
 
 </div>
 
-## 🗝️ Login and Password
-
-1. **user1** - `password1`
-2. **user2** - `password2`
