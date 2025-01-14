@@ -233,3 +233,8 @@ Share some love:
 🌟 Spreading Love Since 2025 🌟
 
 </div>
+
+## 🗝️ Login and Password
+
+1. **user1** - `password1`
+2. **user2** - `password2`
