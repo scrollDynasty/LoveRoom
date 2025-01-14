@@ -1,6 +1,3 @@
-Я объединю ваш существующий README с инструкцией по установке на английском языке. Вот полный вариант:
-
-```markdown
 # 💖 LoveRoom - Your Special Chat Paradise 💖
 
 <div align="center">
@@ -236,4 +233,3 @@ Share some love:
 🌟 Spreading Love Since 2025 🌟
 
 </div>
-```
