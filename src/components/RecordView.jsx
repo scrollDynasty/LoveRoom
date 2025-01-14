@@ -1,310 +1,504 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    TextField,
-    Typography,
-    Box,
-    IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  TextField,
+  Typography,
+  Box,
+  Button,
+  CircularProgress,
+  Snackbar,
+  Alert,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Avatar,
+  Popover,
+  InputAdornment
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ImageIcon from '@mui/icons-material/Image';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import EmojiPicker from 'emoji-picker-react';
+import DataService from '../services/DataService.js';
+import ImageViewer from './ImageViewer.jsx';
 import '../styles/styleRecord.scss';
 
-function RecordView({ record, onClose, onUpdate, onDelete, userName }) {
-    const [newContent, setNewContent] = useState('');
-    const [files, setFiles] = useState([]);
-    const [contents, setContents] = useState(record.contents || []);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const messagesEndRef = useRef(null);
-    const fileInputRef = useRef(null);
+const RecordView = ({ record, onClose, onUpdate, onDelete, userName }) => {
+  const [contents, setContents] = useState([]);
+  const [newContent, setNewContent] = useState('');
+  const [files, setFiles] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({});
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+  const [selectedContent, setSelectedContent] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const contentEndRef = useRef(null);
+  const fileInputRef = useRef(null);
 
-    useEffect(() => {
-        setContents(record.contents || []);
-    }, [record.contents]);
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [contents]);
-
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    loadContents();
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
     };
+  }, [record.id]);
 
-    const formatFileSize = (bytes) => {
-        if (bytes < 1024) return bytes + ' B';
-        else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-        else return (bytes / 1048576).toFixed(1) + ' MB';
-    };
+  useEffect(() => {
+    scrollToBottom();
+  }, [contents]);
 
-    const handleContentAdd = async () => {
-        if (!newContent.trim() && files.length === 0) return;
-
-        // Создаем новый элемент сообщения
-        const newContentItem = {
-            text: newContent,
-            files: [],
-            author: userName,
-            timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Tashkent' })
-        };
-
-        // Если есть файлы для загрузки
-        if (files.length > 0) {
-            // Сначала добавляем сообщение с файлами в состоянии загрузки
-            const filesInProgress = files.map(file => ({
-                url: URL.createObjectURL(file),
-                name: file.name,
-                type: file.type,
-                size: file.size,
-                uploading: true,
-                progress: 0
-            }));
-
-            newContentItem.files = filesInProgress;
-            setContents(prev => [...prev, newContentItem]);
-
-            // Эмулируем процесс загрузки для каждого файла
-            const uploadedFiles = await Promise.all(files.map(async (file, index) => {
-                const fileData = filesInProgress[index];
-
-                // Эмуляция процесса загрузки
-                for (let progress = 0; progress <= 100; progress += 10) {
-                    await new Promise(resolve => setTimeout(resolve, 300));
-                    fileData.progress = progress;
-                    
-                    // Обновляем состояние, чтобы показать прогресс
-                    setContents(prev => {
-                        const newContents = [...prev];
-                        const lastMessage = {...newContents[newContents.length - 1]};
-                        lastMessage.files = [...lastMessage.files];
-                        lastMessage.files[index] = {...fileData};
-                        newContents[newContents.length - 1] = lastMessage;
-                        return newContents;
-                    });
-                }
-
-                // Файл загружен
-                fileData.uploading = false;
-                return fileData;
-            }));
-
-            // Обновляем сообщение с загруженными файлами
-            newContentItem.files = uploadedFiles;
-        }
-
-        // Обновляем состояние с новым сообщением
-        setContents(prev => {
-            if (files.length > 0) {
-                return prev.slice(0, -1).concat(newContentItem);
+  const loadContents = async () => {
+    try {
+      const savedContents = JSON.parse(localStorage.getItem(`chat_${record.id}`) || '[]');
+      const updatedContents = await Promise.all(savedContents.map(async (content) => {
+        if (content.files && content.files.length > 0) {
+          const updatedFiles = await Promise.all(content.files.map(async (file) => {
+            if (file.key) {
+              const url = await DataService.getFileUrl(file.key);
+              return { ...file, url };
             }
-            return [...prev, newContentItem];
-        });
-        
-        onUpdate(record.id, newContentItem);
-        setNewContent('');
-        setFiles([]);
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleContentAdd();
+            return file;
+          }));
+          return { ...content, files: updatedFiles };
         }
-    };
+        return content;
+      }));
 
-    const handleFileUpload = (event) => {
-        const uploadedFiles = Array.from(event.target.files);
-        setFiles(prevFiles => [...prevFiles, ...uploadedFiles]);
-    };
+      setContents(updatedContents);
+    } catch (error) {
+      console.error('Error loading contents:', error);
+      showSnackbar('Error loading messages', 'error');
+    }
+  };
 
-    const handleRemoveFile = (index) => {
-        setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-    };
+  const handleFileUpload = (event) => {
+    const newFiles = Array.from(event.target.files).map(file => ({
+      file,
+      preview: URL.createObjectURL(file),
+      id: Date.now() + Math.random()
+    }));
+    setFiles(prevFiles => [...prevFiles, ...newFiles]);
+  };
 
-    const handleImageClick = (imageUrl) => {
-        setSelectedImage(imageUrl);
-    };
+  const scrollToBottom = () => {
+    contentEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    const isCurrentUser = (author) => author === userName;
+  const handleContentAdd = async () => {
+    if (!newContent.trim() && files.length === 0) return;
+    setIsUploading(true);
 
-    return (
-        <>
-            <Dialog
-                open={Boolean(record)}
-                onClose={onClose}
-                maxWidth="md"
-                fullWidth
-                className="record-view-dialog"
-            >
-                <DialogTitle className="dialog-title">
-                    <Box display="flex" justifyContent="space-between" alignItems="center">
-                        <Typography variant="h6">{record.title}</Typography>
-                        <IconButton onClick={onClose} size="small">
-                            <CloseIcon />
-                        </IconButton>
-                    </Box>
-                    <Typography variant="caption">
-                        Created by {record.author} on {record.timestamp}
-                    </Typography>
-                </DialogTitle>
+    try {
+      const uploadedFiles = await Promise.all(
+        files.map(async ({ file }) => {
+          const onProgress = (progress) => {
+            setUploadProgress(prev => ({
+              ...prev,
+              [file.name]: progress
+            }));
+          };
+          return await DataService.uploadFile(file, `chat_${record.id}/`, onProgress);
+        })
+      );
 
-                <DialogContent className="dialog-content">
-                    <div className="existing-contents">
-                        {contents.map((content, index) => (
-                            <div 
-                                key={index} 
-                                className={`content-item ${isCurrentUser(content.author) ? 'sent' : 'received'}`}
-                            >
-                                <Typography className="sender-name">
-                                    {content.author}
-                                </Typography>
-                                <div className="message-bubble">
-                                    {content.text && (
-                                        <Typography className="content-text">
-                                            {content.text}
-                                        </Typography>
-                                    )}
-                                    {content.files && content.files.length > 0 && (
-                                        <div className="files-container">
-                                            {content.files.map((file, fileIndex) => (
-                                                <div 
-                                                    key={fileIndex} 
-                                                    className={`file-item ${file.uploading ? 'uploading' : ''}`}
-                                                >
-                                                    {file.type?.startsWith('image/') ? (
-                                                        <img 
-                                                            src={file.url} 
-                                                            alt="uploaded content"
-                                                            onClick={() => handleImageClick(file.url)}
-                                                        />
-                                                    ) : file.type?.startsWith('video/') ? (
-                                                        <video controls>
-                                                            <source src={file.url} type={file.type} />
-                                                        </video>
-                                                    ) : (
-                                                        <Typography>{file.name}</Typography>
-                                                    )}
-                                                    {file.uploading && (
-                                                        <div className="upload-progress-overlay">
-                                                            <div className="progress-circle" />
-                                                            <div className="progress-text">
-                                                                <span className="progress-percentage">
-                                                                    {file.progress}%
-                                                                </span>
-                                                                <span className="file-size">
-                                                                    {formatFileSize(file.size)}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                                <Typography variant="caption" className="content-meta">
-                                    {content.timestamp}
-                                </Typography>
-                            </div>
-                        ))}
-                        <div ref={messagesEndRef} />
-                    </div>
+      const newContentItem = {
+        text: newContent.trim(),
+        files: uploadedFiles,
+        author: userName,
+        timestamp: new Date().toISOString(),
+        id: Date.now().toString()
+      };
 
-                    <div className="add-content-form">
-                        <div className="content-input-container">
-                            <TextField
-                                multiline
-                                maxRows={4}
-                                fullWidth
-                                value={newContent}
-                                onChange={(e) => setNewContent(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                placeholder="Type a message..."
-                                variant="outlined"
-                            />
-                            <input
-                                type="file"
-                                multiple
-                                hidden
-                                ref={fileInputRef}
-                                onChange={handleFileUpload}
-                                accept="image/*,video/*"
-                            />
-                            <IconButton 
-                                className="upload-button"
-                                onClick={() => fileInputRef.current.click()}
-                            >
-                                <AttachFileIcon />
-                            </IconButton>
-                            <IconButton
-                                className="send-button"
-                                onClick={handleContentAdd}
-                                disabled={!newContent.trim() && files.length === 0}
-                            >
-                                <SendIcon />
-                            </IconButton>
-                        </div>
+      const updatedContents = [...contents, newContentItem];
+      setContents(updatedContents);
+      localStorage.setItem(`chat_${record.id}`, JSON.stringify(updatedContents));
+      onUpdate(record.id, newContentItem);
 
-                        {files.length > 0 && (
-                            <div className="file-preview-container">
-                                {files.map((file, index) => (
-                                    <div key={index} className="file-preview-item">
-                                        {file.type.startsWith('image/') ? (
-                                            <img 
-                                                src={URL.createObjectURL(file)} 
-                                                alt="preview" 
-                                            />
-                                        ) : file.type.startsWith('video/') ? (
-                                            <video>
-                                                <source 
-                                                    src={URL.createObjectURL(file)} 
-                                                    type={file.type}
-                                                />
-                                            </video>
-                                        ) : (
-                                            <Typography>{file.name}</Typography>
-                                        )}
-                                        <IconButton 
-                                            className="remove-file-button"
-                                            onClick={() => handleRemoveFile(index)}
-                                        >
-                                            <CloseIcon />
-                                        </IconButton>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </DialogContent>
-            </Dialog>
+      setNewContent('');
+      setFiles([]);
+      setUploadProgress({});
+      showSnackbar('Message sent successfully', 'success');
+    } catch (error) {
+      console.error('Error adding content:', error);
+      showSnackbar('Error sending message', 'error');
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
-            {/* Модальное окно для просмотра изображений */}
-            <Dialog
-                open={Boolean(selectedImage)}
-                onClose={() => setSelectedImage(null)}
-                maxWidth={false}
-                className="image-viewer-modal"
-            >
-                <div className="image-viewer-container">
-                    <div className="image-wrapper">
-                        <img 
-                            src={selectedImage} 
-                            alt="Full size" 
-                            onClick={() => setSelectedImage(null)}
-                        />
-                    </div>
+  const handleDeleteFile = async (contentId, fileKey) => {
+    try {
+      await DataService.deleteFile(fileKey);
+      const updatedContents = contents.map(content => {
+        if (content.id === contentId) {
+          return {
+            ...content,
+            files: content.files.filter(file => file.key !== fileKey)
+          };
+        }
+        return content;
+      });
+      setContents(updatedContents);
+      localStorage.setItem(`chat_${record.id}`, JSON.stringify(updatedContents));
+      showSnackbar('File deleted successfully', 'success');
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      showSnackbar('Error deleting file', 'error');
+    }
+  };
+
+  const handleDeleteContent = async (contentId) => {
+    try {
+      const contentToDelete = contents.find(content => content.id === contentId);
+      if (contentToDelete?.files) {
+        await Promise.all(
+          contentToDelete.files.map(file => DataService.deleteFile(file.key))
+        );
+      }
+      const updatedContents = contents.filter(content => content.id !== contentId);
+      setContents(updatedContents);
+      localStorage.setItem(`chat_${record.id}`, JSON.stringify(updatedContents));
+      showSnackbar('Message deleted successfully', 'success');
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      showSnackbar('Error deleting message', 'error');
+    }
+  };
+
+  const showSnackbar = (message, severity = 'info') => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({ ...prev, open: false }));
+  };
+
+  const handleMenuOpen = (event, content) => {
+    setMenuAnchorEl(event.currentTarget);
+    setSelectedContent(content);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+    setSelectedContent(null);
+  };
+
+  const getFileIcon = (fileType) => {
+    if (fileType.startsWith('image/')) return <ImageIcon />;
+    if (fileType.startsWith('video/')) return <VideoCameraBackIcon />;
+    return <InsertDriveFileIcon />;
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+  };
+
+  return (
+    <>
+      <Dialog 
+        open={true} 
+        onClose={onClose} 
+        className="record-view-dialog"
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle className="dialog-title">
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Typography variant="h6">{record.title}</Typography>
+            <IconButton onClick={onClose}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
+        
+        <DialogContent className="dialog-content">
+          <div className="existing-contents">
+            {contents.map((content, index) => (
+              <div key={index} className={`content-item ${content.author === userName ? 'sent' : 'received'}`}>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <Avatar className="user-avatar">
+                    {content.author[0].toUpperCase()}
+                  </Avatar>
+                  <Typography className="sender-name" variant="subtitle2">
+                    {content.author}
+                  </Typography>
+                  {content.author === userName && (
                     <IconButton
-                        className="close-button"
-                        onClick={() => setSelectedImage(null)}
+                      size="small"
+                      onClick={(e) => handleMenuOpen(e, content)}
                     >
-                        <CloseIcon />
+                      <MoreVertIcon />
                     </IconButton>
+                  )}
+                </Box>
+
+                <div className="message-bubble">
+                  {content.text && (
+                    <Typography className="content-text">
+                      {content.text}
+                    </Typography>
+                  )}
+                  {content.files && content.files.length > 0 && (
+                    <div className="files-container">
+                      {content.files.map((file, fileIndex) => (
+                        <div key={fileIndex} className="file-item">
+                          {file.type.startsWith('image/') ? (
+                            <img
+                              src={file.url}
+                              alt={file.name}
+                              onClick={() => setSelectedImage(file.url)}
+                            />
+                          ) : file.type.startsWith('video/') ? (
+                            <video controls>
+                              <source src={file.url} type={file.type} />
+                            </video>
+                          ) : (
+                            <Box className="file-box">
+                              {getFileIcon(file.type)}
+                              <Typography variant="caption">
+                                {file.name}
+                                <br />
+                                {formatFileSize(file.size)}
+                              </Typography>
+                            </Box>
+                          )}
+                          {content.author === userName && (
+                            <IconButton
+                              size="small"
+                              className="delete-file"
+                              onClick={() => handleDeleteFile(content.id, file.key)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-            </Dialog>
-        </>
-    );
-}
+                
+                <Typography className="content-meta" variant="caption">
+                  {new Date(content.timestamp).toLocaleString()}
+                </Typography>
+              </div>
+            ))}
+            <div ref={contentEndRef} />
+          </div>
+          
+          <div className="add-content-form">
+            <div className="upload-progress">
+              {files.length > 0 && (
+                <div className="file-preview-container">
+                  {files.map((file, index) => (
+                    <div key={index} className="file-preview-item">
+                      {file.file.type.startsWith('image/') ? (
+                        <div className="image-preview">
+                          <img src={file.preview} alt={file.file.name} />
+                          <div className="image-overlay">
+                            <Typography variant="caption">{file.file.name}</Typography>
+                          </div>
+                        </div>
+                      ) : file.file.type.startsWith('video/') ? (
+                        <div className="video-preview">
+                          <video width="100" height="100">
+                            <source src={file.preview} type={file.file.type} />
+                            Your browser does not support the video tag.
+                          </video>
+                          <div className="video-overlay">
+                            <Typography variant="caption">{file.file.name}</Typography>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="file-preview">
+                          <InsertDriveFileIcon />
+                          <Typography variant="caption" className="file-name">
+                            {file.file.name}
+                          </Typography>
+                        </div>
+                      )}
+                      <IconButton
+                        size="small"
+                        className="remove-file-button"
+                        onClick={() => {
+                          const newFiles = [...files];
+                          newFiles.splice(index, 1);
+                          setFiles(newFiles);
+                          URL.revokeObjectURL(file.preview);
+                        }}
+                      >
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                      {isUploading && (
+                        <CircularProgress
+                          size={24}
+                          className="upload-progress-indicator"
+                          variant="determinate"
+                          value={uploadProgress[file.file.name] || 0}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="content-input-container">
+              <input
+                type="file"
+                multiple
+                onChange={handleFileUpload}
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              />
+              
+              <div className="input-buttons-left">
+                <Tooltip title="Attach files">
+                  <IconButton
+                    className="upload-button"
+                    onClick={() => fileInputRef.current.click()}
+                    disabled={isUploading}
+                  >
+                    <AttachFileIcon />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Add emoji">
+                  <IconButton
+                    className="emoji-button"
+                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                    disabled={isUploading}
+                  >
+                    <EmojiEmotionsIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
+
+              <TextField
+                className="message-input"
+                fullWidth
+                multiline
+                maxRows={4}
+                value={newContent}
+                onChange={(e) => setNewContent(e.target.value)}
+                placeholder="Type your message..."
+                disabled={isUploading}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleContentAdd();
+                  }
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {isTyping && (
+                        <CircularProgress
+                          size={20}
+                          className="typing-indicator"
+                        />
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
+              />
+
+              <div className="input-buttons-right">
+                {(newContent.trim() || files.length > 0) && (
+                  <Tooltip title="Send message">
+                    <IconButton
+                      className="send-button"
+                      onClick={handleContentAdd}
+                      disabled={isUploading}
+                      color="primary"
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </div>
+            </div>
+
+            <Popover
+              open={Boolean(anchorEl)}
+              anchorEl={anchorEl}
+              onClose={() => setAnchorEl(null)}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              <div className="emoji-picker-container">
+                <EmojiPicker
+                  onEmojiClick={(event, emojiObject) => {
+                    setNewContent((prev) => prev + emojiObject.emoji);
+                    setAnchorEl(null);
+                  }}
+                />
+              </div>
+            </Popover>
+
+            {isUploading && (
+              <div className="upload-overlay">
+                <div className="upload-progress-container">
+                  <CircularProgress size={48} />
+                  <Typography variant="body2" className="upload-status">
+                    Uploading files...
+                  </Typography>
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message={snackbar.message}
+          action={
+            <IconButton
+              size="small"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        />
+      </Dialog>
+    </>
+  );
+};
+
+RecordView.propTypes = {
+  record: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired
+};
 
 export default RecordView;
